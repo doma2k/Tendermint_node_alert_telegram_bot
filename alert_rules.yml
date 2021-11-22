@@ -4,7 +4,7 @@ groups:
    rules:
    - alert: assetMantle Down
      # Condition for alerting
-     expr: up{instance="xxxxxxx"} == 0 # replace xxxxxxx with your addrees and port
+     expr: up{instance="localhost:26660"} == 0 # replace xxxxxxx with your addrees and port
      for: 1m
      # Annotation - additional informational labels to store more information
      annotations:
@@ -28,7 +28,7 @@ groups:
 
    - alert: assetMantle votingPower
      # Condition for alerting
-     expr: tendermint_consensus_validator_power{instance="xxxxxxx"} == 0 # replace xxxxxxx with your node addrees and port
+     expr: tendermint_consensus_validator_power{instance="localhost:26660"} == 0 # replace xxxxxxx with your node addrees and port
      for: 2m
      # Annotation - additional informational labels to store more information
      annotations:
