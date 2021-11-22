@@ -1,2 +1,2 @@
 # Alert-Rules
-Alert rules for prometheus and tendermint 
+# Alert rules for prometheus and tendermint 
