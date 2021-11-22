@@ -22,6 +22,8 @@ docker-compose up -d
 
 <Now you can look at monitring little bit less>
 
+  
+Credits:  
 Bot downloaded from:
 https://github.com/metalmatze/alertmanager-bot
 
