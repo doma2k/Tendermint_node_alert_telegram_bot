@@ -1,0 +1,30 @@
+# my global config
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+           - "alertmanager-bot:9093"
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+   - "alert_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+      - job_name: "Nodes"
+        static_configs:
+         - targets: ["nodeexporter:9100"] 
+           labels:
+             label: "Node"
+
+      - job_name: "assetMantle"
+        static_configs:
+         - targets: ["<node_id>:26660"] # replace with your node id
+           labels:
+             label: "assetMantle"

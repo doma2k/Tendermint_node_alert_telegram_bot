@@ -1,0 +1,69 @@
+version: "3"
+
+volumes:
+  prometheus_data: {}
+  bot_data: {}
+networks:
+  alertmanager-bot: {}
+
+services:
+  alertmanager-bot: 
+    container_name: alertmanager-bot
+    command:
+    - --alertmanager.url=http://<node_ip>:9093   # input node ip 
+    - --log.level=info
+    - --store=bolt
+    - --bolt.path=/data/bot.db
+    environment:
+      TELEGRAM_ADMIN: "xxxxxx" # replace xxxxxx with telegram id number
+      TELEGRAM_TOKEN: xxxxxx # replace xxxxxx telegram bot token 
+    image: metalmatze/alertmanager-bot:0.4.3
+    networks:
+    - alertmanager-bot
+    ports:
+    - 8080:8080
+    restart: always
+    volumes:
+    - ./bot_data:/data
+
+  prometheus:
+    image: prom/prometheus:v2.3.0
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+
+  nodeexporter:
+    image: prom/node-exporter:v1.3.0
+    container_name: nodeexporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    restart: unless-stopped
+    expose:
+      - 9100
+    labels:
+      org.label-schema.group: "monitoring"

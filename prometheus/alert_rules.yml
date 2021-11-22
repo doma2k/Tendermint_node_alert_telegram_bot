@@ -1,0 +1,51 @@
+groups:
+     # Chose your 'name' 
+ - name: Nodes
+   rules:
+   - alert: assetMantle Down
+     # This alert will triger if you node is dowm
+     expr: up{instance="<node_id>:26660"} == 0 # input your node id
+     for: 1m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       title: 'Instance {{ $labels.instance }} down'
+       description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'critical'
+
+   - alert: assetMantle missedBlocks
+     # If your node will rich more then 100 missed blocks you will get notification
+     expr: tendermint_consensus_validator_missed_blocks{instance="xxxxxxxx:26660"} > 100 # replace xxxxxxx with your node addrees and port
+     for: 1m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       title: 'Instance {{ $labels.instance }} missing blocks'
+       description: '{{ $labels.instance }} of job {{ $labels.job }} is missing blocks.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'
+
+   - alert: assetMantle votingPower
+     # If your validator become inactive or jailed you will be notified
+     expr: tendermint_consensus_validator_power{instance="xxxxxxxxx:26660"} == 0 # replace xxxxxxx with your node addrees and port
+     for: 2m
+     # Annotation - additional informational labels to store more information
+     annotations:
+      title: 'Instance {{ $labels.instance }} jailed validator.'
+      description: '{{ $labels.instance }} of job {{ $labels.job }} the validator is inactive.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'critical'
+
+   - alert: assetMantle diskSpace
+     # When disc space will be 80% full you get notification
+     expr: 100.0 - 100 * (sum(avg(node_filesystem_free_bytes{label="Node", mountpoint="/"})by(device,instance)) / sum(avg(node_filesystem_size_bytes{label="Node", mountpoint="/"})by(device,instance))) > 80
+     for: 2m
+     # Annotation - additional informational labels to store more information
+     annotations:
+      title: 'Instance {{ $labels.instance }} memory warning.'
+      description: '{{ $labels.instance }} of job {{ $labels.job }} is soon will be out of memory.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'
