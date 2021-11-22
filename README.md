@@ -1,5 +1,8 @@
 # Alert-Rules
-Alert rules for prometheus and tendermint 
+
+Alert rules for prometheus and tendermint
+
+For the sake of experiment all the services will appleyid on localhost.
 
 This is short guide how to set up alert rules for prometheus alertmanager and hook-up it with telegram bot.
 
