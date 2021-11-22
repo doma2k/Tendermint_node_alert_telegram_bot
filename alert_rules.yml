@@ -1,0 +1,51 @@
+groups:
+     # Chose your 'name' 
+ - name: Nodes
+   rules:
+   - alert: assetMantle Down
+     # Condition for alerting
+     expr: up{instance="xxxxxxx"} == 0 # replace xxxxxxx with your addrees and port
+     for: 1m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       title: 'Instance {{ $labels.instance }} down'
+       description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'critical'
+
+   - alert: assetMantle missedBlocks
+     # Condition for alerting
+     expr: tendermint_consensus_validator_missed_blocks{instance="xxxxxxx"} > 100 # replace xxxxxxx with your node addrees and port
+     for: 1m
+     # Annotation - additional informational labels to store more information
+     annotations:
+       title: 'Instance {{ $labels.instance }} missing blocks'
+       description: '{{ $labels.instance }} of job {{ $labels.job }} is missing blocks.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'
+
+   - alert: assetMantle votingPower
+     # Condition for alerting
+     expr: tendermint_consensus_validator_power{instance="xxxxxxx"} == 0 # replace xxxxxxx with your node addrees and port
+     for: 2m
+     # Annotation - additional informational labels to store more information
+     annotations:
+      title: 'Instance {{ $labels.instance }} jailed validator.'
+      description: '{{ $labels.instance }} of job {{ $labels.job }} the validator is inactive.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'critical'
+
+   - alert: assetMantle aiskSpace
+     # Condition for alerting
+     expr: 100.0 - 100 * (sum(avg(node_filesystem_free_bytes{label="assetMantle", mountpoint="/"})by(device,instance)) / sum(avg(node_filesystem_size_bytes{label="assetMantle", mountpoint="/"})by(device,instance))) > 80
+     for: 2m
+     # Annotation - additional informational labels to store more information
+     annotations:
+      title: 'Instance {{ $labels.instance }} memory warning.'
+      description: '{{ $labels.instance }} of job {{ $labels.job }} is soon will be out of memory.'
+     # Labels - additional labels to be attached to the alert
+     labels:
+       severity: 'warning'
