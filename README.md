@@ -1,7 +1,7 @@
 # Prometheus with alert rules and telegram bot
 As example i took assetMantle but will work with any ather tendermint based chain.
 Will play more with alert rules and probably will slightly modify bot UI.
-Config files coud be addjusted to extend list of nodes, add more or adjust alert rules.
+Config files coud be addjusted to extend list of nodes, or add more alert rules.
 Any one who want to contrbute to it, most welcome. 
 To run this stack will need docker and docker-compose:
 
