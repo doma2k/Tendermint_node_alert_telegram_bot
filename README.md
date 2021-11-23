@@ -13,7 +13,7 @@ docker-compose: https://docs.docker.com/compose/install/
 https://core.telegram.org/bots
 
 # Clone repo, modify config files 
-Just follow "# comments" there is mostly need to input ips, bot token etc.
+Just follow "# comments" there is mostly need to add ip's, bot token etc.
 
 # Start 
 docker-compose up -d 
