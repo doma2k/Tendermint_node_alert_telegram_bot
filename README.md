@@ -9,7 +9,7 @@ docker: https://docs.docker.com/engine/install/ubuntu/
 
 docker-compose: https://docs.docker.com/compose/install/
 
-# Creat bot, guide:
+# Creat telegram bot, guide:
 https://core.telegram.org/bots
 
 # Clone repo, modify config files 
