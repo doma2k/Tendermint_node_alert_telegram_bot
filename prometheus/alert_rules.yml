@@ -16,7 +16,7 @@ groups:
 
    - alert: assetMantle missedBlocks
      # If your node will rich more then 100 missed blocks you will get notification
-     expr: tendermint_consensus_validator_missed_blocks{instance="xxxxxxxx:26660"} > 100 # replace xxxxxxx with your node addrees and port
+     expr: tendermint_consensus_validator_missed_blocks{instance="xxxxxxxx:26660"} > 100 # replace xxxxxxx with your node addres
      for: 1m
      # Annotation - additional informational labels to store more information
      annotations:
@@ -28,7 +28,7 @@ groups:
 
    - alert: assetMantle votingPower
      # If your validator become inactive or jailed you will be notified
-     expr: tendermint_consensus_validator_power{instance="xxxxxxxxx:26660"} == 0 # replace xxxxxxx with your node addrees and port
+     expr: tendermint_consensus_validator_power{instance="xxxxxxxxx:26660"} == 0 # replace xxxxxxx with your node addres
      for: 2m
      # Annotation - additional informational labels to store more information
      annotations:
