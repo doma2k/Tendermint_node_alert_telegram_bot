@@ -9,7 +9,7 @@ alerting:
   alertmanagers:
     - static_configs:
         - targets:
-           - "alertmanager-bot:9093"
+           - "alertmanager:9093"
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
@@ -21,10 +21,8 @@ scrape_configs:
         static_configs:
          - targets: ["nodeexporter:9100"] 
            labels:
-             label: "Node"
+             label: "mantleNode"
 
-      - job_name: "assetMantle"
-        static_configs:
          - targets: ["<node_id>:26660"] # replace with your node id
            labels:
              label: "assetMantle"
