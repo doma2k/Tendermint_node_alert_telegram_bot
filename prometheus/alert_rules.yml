@@ -13,19 +13,7 @@ groups:
      # Labels - additional labels to be attached to the alert
      labels:
        severity: 'critical'
-
-   - alert: assetMantle missedBlocks
-     # If your node will rich more then 100 missed blocks you will get notification
-     expr: tendermint_consensus_validator_missed_blocks{instance="xxxxxxxx:26660"} > 100 # replace xxxxxxx with your node addres
-     for: 1m
-     # Annotation - additional informational labels to store more information
-     annotations:
-       title: 'Instance {{ $labels.instance }} missing blocks'
-       description: '{{ $labels.instance }} of job {{ $labels.job }} is missing blocks.'
-     # Labels - additional labels to be attached to the alert
-     labels:
-       severity: 'warning'
-
+       
    - alert: assetMantle votingPower
      # If your validator become inactive or jailed you will be notified
      expr: tendermint_consensus_validator_power{instance="xxxxxxxxx:26660"} == 0 # replace xxxxxxx with your node addres
